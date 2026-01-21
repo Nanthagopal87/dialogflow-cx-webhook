@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webhook-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: webhook
+  template:
+    metadata:
+      labels:
+        app: webhook
+    spec:
+      containers:
+      - name: app
+        image: us-central1-docker.pkg.dev/prj-gdg-ai-meetup-20250717-1/cloud-run-source-deploy/dialogflow-cx-webhook@sha256:ab87d8704270f7fa71df76ccd0d64c0d7ea4b2b9be605d934a79f461a38e1e16
+        ports:
+        - containerPort: 8080

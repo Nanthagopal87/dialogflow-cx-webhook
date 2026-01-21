@@ -1,0 +1,14 @@
+apiVersion: networking.gke.io/v1
+kind: HealthCheckPolicy
+metadata:
+  name: webhook-tcp-health-check
+spec:
+  default:
+    config:
+      type: TCP  # Switched from HTTP to TCP
+      tcpHealthCheck:
+        port: 8080
+  targetRef:
+    group: ""
+    kind: Service
+    name: webhook-backend-svc

@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webhook-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: webhook
+  template:
+    metadata:
+      labels:
+        app: webhook
+    spec:
+      containers:
+      - name: app
+        image: gcr.io/google-samples/hello-app:1.0 # REPLACE WITH YOUR IMAGE
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webhook-backend-svc
+spec:
+  type: ClusterIP
+  selector:
+    app: webhook
+  ports:
+  - port: 8080
+---
+kind: Gateway
+apiVersion: gateway.networking.k8s.io/v1
+metadata:
+  name: internal-https-gateway
+spec:
+  gatewayClassName: gke-l7-rilb # Regional Internal Load Balancer
+  listeners:
+  - name: https
+    protocol: HTTPS
+    port: 443
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - name: webhook-server-tls
+  addresses:
+  - type: IPAddress
+    value: 10.0.0.9 # Must match your reserved GATEWAY_IP
+---
+kind: HTTPRoute
+apiVersion: gateway.networking.k8s.io/v1
+metadata:
+  name: webhook-route
+spec:
+  parentRefs:
+  - name: internal-https-gateway
+  rules:
+  - backendRefs:
+    - name: webhook-backend-svc
+      port: 8080

@@ -1,0 +1,17 @@
+kind: Gateway
+apiVersion: gateway.networking.k8s.io/v1
+metadata:
+  name: internal-https-gateway
+spec:
+  gatewayClassName: gke-l7-rilb # Regional Internal Load Balancer
+  listeners:
+  - name: https
+    protocol: HTTPS
+    port: 443
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - name: webhook-server-tls
+  addresses:
+  - type: NamedAddress       # Changed from IPAddress
+    value: cloudrun-ip       # Changed from 10.0.0.9 to the GCP Resource Name

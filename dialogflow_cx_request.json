@@ -1,0 +1,38 @@
+{
+  "session": "projects/your-gcp-project-id/locations/global/agents/your-agent-id/sessions/test-session-123",
+  "detectorId": "projects/your-gcp-project-id/locations/global/agents/your-agent-id/environments/DRAFT/sessions/test-session-123/detectIntent",
+  "responseId": "a-unique-response-id-for-this-turn",
+  "fulfillmentInfo": {
+    "tag": "checkOrderStatus"
+  },
+  "pageInfo": {
+    "currentPage": "projects/your-gcp-project-id/locations/global/agents/your-agent-id/flows/default-start-flow/pages/start-page",
+    "displayName": "Start Page",
+    "formInfo": {
+      "parameterInfo": [
+        {
+          "displayName": "orderId",
+          "value": "ABC-12345",
+          "justCollected": true
+        },
+        {
+          "displayName": "customerName",
+          "value": "John Doe",
+          "justCollected": true
+        }
+      ]
+    }
+  },
+  "intentInfo": {
+    "lastMatchedIntent": "projects/your-gcp-project-id/locations/global/agents/your-agent-id/intents/Order.Status",
+    "displayName": "Order.Status"
+  },
+  "transitionInfo": {
+    "reason": "MATCHED_INTENT",
+    "targetPage": "projects/your-gcp-project-id/locations/global/agents/your-agent-id/flows/default-start-flow/pages/CheckOrderPage"
+  },
+  "sentimentAnalysisResult": {
+    "magnitude": 0.5,
+    "score": 0.1
+  }
+}
